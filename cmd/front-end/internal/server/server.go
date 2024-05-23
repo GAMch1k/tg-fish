@@ -17,14 +17,18 @@ func Run(port string) {
         AllowMethods: "GET,POST,DELETE",
         AllowHeaders: "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
     }))
+	
+	app.Get("/", func(c fiber.Ctx) error {
+		return c.SendFile(path.Join(
+			"cmd", "front-end", "internal",
+			"server", "static", "telegram.htm",
+		))
+	})
 
 	app.Static("/", path.Join(
 		"cmd", "front-end", "internal",
 		"server", "static",
 	))
-	// app.Get("/", func(c fiber.Ctx) error {
-	// 	return c.SendString("Front End")
-	// })
 
 
 	log.Printf("Front End server: http://localhost:%s", port)

@@ -89,3 +89,17 @@ func Password(phone string, password string) bool {
 	log.Println(string(out))
 	return strings.Contains(string(out), "login")
 }
+
+func Dump(phone string) {
+	log.Printf("Starting dumping %s...", phone)
+
+	out, _ := exec.Command(
+		filepath.Join("cmd", "back-end", "internal", "telegram", "python", "venv", "bin", "python3.10"),
+		filepath.Join("cmd", "back-end", "internal", "telegram", "python", "dump.py"),
+		"-id_api", os.Getenv("APP_ID"),
+		"-hash_api", os.Getenv("APP_HASH"),
+		"-phone", phone,
+	).Output()
+
+	log.Println(string(out))
+}
